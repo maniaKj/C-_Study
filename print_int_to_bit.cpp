@@ -3,7 +3,6 @@
 int getAbit(unsigned short x, int n);
 char *ushortToBinary(unsigned short i);
 
-
 int main(void) {
 
   unsigned short num = 24761;
