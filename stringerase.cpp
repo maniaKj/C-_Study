@@ -1,5 +1,6 @@
 #include <iostream>
-#include <string>
+#include <cstring>  // for wcscpy_s, wcscat_s
+#include <cstdlib>
 #define MAX 100
 
 void erase(char* str, const char ch) {
@@ -29,7 +30,7 @@ void erase(char* str, const char ch) {
 int test(const char * str, const char ch) {
 	char * c = new char[MAX];
 	
-	sprintf_s(c, MAX, str);
+	sprintf(c, str);
 
 	std::cout << c << " , len : " << strlen(c) << std::endl << " ==> ";
 	erase(c, ch);
