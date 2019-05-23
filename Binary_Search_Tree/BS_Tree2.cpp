@@ -76,7 +76,7 @@ public:
 	}
 	void remove(T target) {
 		TreeNode<T> *target_node = root, *target_parent = NULL;
-		//값 있는지 탐색
+		//값 있는지 탐색 
 		while (target_node != NULL && target_node->data != target) {
 			target_parent = target_node;
 			target_node = target_node->data >= target ? target_node->left : target_node->right;
