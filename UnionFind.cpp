@@ -68,7 +68,8 @@ int main( void ) {
 }
 
 ----------------------------------------------------------
-    //vector 
+//활용 예시 - 해커랭크 문제 : https://www.hackerrank.com/challenges/friend-circle-queries/problem?h_l=interview&playlist_slugs%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D=miscellaneous
+//vector 
 #include <string>
 #include <vector>
 #include <iostream>
