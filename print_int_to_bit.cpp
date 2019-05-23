@@ -1,5 +1,25 @@
 #include <stdio.h>
+#include <string>
+#include <iostream>
+//--------------------------간단한 방법----------------------------//
+void printBit(int n) {
+    if(n ==0) {
+        cout << '0' << endl;
+        return;
+    }
+  string str = "";
+  while (n > 0) {
+    str += '0' + n % 2;
+    n = n >> 1;
+  }
+  for (auto iter = str.rbegin(); iter != str.rend(); iter++) {
+    cout << *iter;
+  }
+  cout << endl;
+}
 
+
+//--------------------------비트연산자 활용----------------------------//
 int getAbit(unsigned short x, int n);
 char *ushortToBinary(unsigned short i);
 
