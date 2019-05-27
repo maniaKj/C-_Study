@@ -19,29 +19,27 @@ public:
 	}
 };
 template<typename T>
-bool default_compare(T t1, T t2) {
-	return t1 < t2;
-}
+bool default_compare(T t1, T t2) { return t1 < t2; } //기본 비교 함수
 
 template<typename T>
 class Heap {
 private :
-	HeapNode<T> node[MAX_ELEMENT];
+	HeapNode<T> node[MAX_ELEMENT];			//힙 구조는 일차원 배열로 구현 가능
 	int heap_size = 0;
-	bool(*compare) (T, T) = default_compare;
+	bool(*compare) (T, T) = default_compare;	//노드의 데이터 비교 함수 지정
 public:
 	Heap() {}
 	Heap(bool(*compFunc) (T, T)) : compare(compFunc) {}
-	void insert(T input) {
-		int i = ++heap_size;
+	void insert(T input) {				//노드 삽입 함수. 특정 노드의 부모 위치는 자기 위치 / 2 임을 활용
+		int i = ++heap_size;			//힙에서 노드를 삽입할 때는 제일 마지막 자리에 삽입하고 부모와 자리를 바꾸는 구조
 		while (i != 1 && compare(node[i / 2].get_data(), input)) {
 			node[i] = node[i / 2];
 			i /= 2;
 		}
 		node[i].set_data(input);
 	}
-	T remove() {
-		int parent = 1, child = 2;
+	T remove() {					//노드 삭제 함수. 힙에서 노드를 삭제할 때는 첫번째 위치의 노드를 지우고
+		int parent = 1, child = 2;		//마지막 노드를 첫번째 노드 위치로 이동 -> 자식 노드와 자리 바꾸기
 		T item, temp;
 
 		item = node[1].get_data();
@@ -56,11 +54,11 @@ public:
 		node[parent].set_data(temp);
 		return item;
 	}
-	int size() {
+	int size() {			//힙의 사이즈 반환
 		return heap_size;
 	}
 	
-	void printHeap() {
+	void printHeap() {		//힙 출력
 		//cout << sizeof(node) << endl;
 		cout << "Heap : ";
 		for (int i = 1; i <= heap_size; i++) {
