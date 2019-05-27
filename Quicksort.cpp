@@ -1,3 +1,6 @@
+#define SWAP(x,y,t) ((t)=(x), (x)=(y), (y)=(t))
+#define QUICK_SORT(vector) quick_sort((vector), (0), (vector.size() - 1))
+
 int partition(vector<int> & _vec, int _left, int _right)
 {
 	int pivot = _vec[_left], tmp, low = _left, high = _right + 1;
