@@ -1,3 +1,33 @@
+int partition(vector<int> & _vec, int _left, int _right)
+{
+	int pivot = _vec[_left], tmp, low = _left, high = _right + 1;
+
+	do {
+		do
+			low++;
+		while (low <= _right && _vec[low] < pivot);
+
+		do
+			high--;
+		while (high >= _left && _vec[high] > pivot);
+		if (low < high) SWAP(_vec[low], _vec[high], tmp);
+	} while (low < high);
+
+	SWAP(_vec[_left], _vec[high], tmp);
+	return high;
+}
+void quick_sort(vector<int> & _vec, int _left, int _right)
+{
+	if (_left < _right)
+	{
+		int q = partition(_vec, _left, _right);
+		quick_sort(_vec, _left, q - 1);
+		quick_sort(_vec, q + 1, _right);
+	}
+}
+
+//*******************************************************************//
+
 vector<int> quickSortvec(vector<int> vec, int left, int right) {
     int i = left, j = right;
     int pivot = vec.at((i+j)/2);
