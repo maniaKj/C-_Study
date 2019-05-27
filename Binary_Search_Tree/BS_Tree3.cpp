@@ -4,7 +4,7 @@
 using namespace std;
 
 template<typename T>
-class TreeNode {
+class TreeNode {			//노드 클래스
 private:
 	T data;
 	TreeNode *left = NULL, *right = NULL;
@@ -30,57 +30,55 @@ public:
 };
 
 template<typename T>
-bool default_comp(T t1, T t2) {
-	return t1 < t2;
-}
+bool default_comp(T t1, T t2) { return t1 < t2; }	//기본 비교 함수
 
 //중복 허용 + call back 함수
 template<typename T>
-class Tree {
+class Tree {						//트리 클래스
 private:
-	TreeNode<T> *root = NULL;
-	bool(*compare)(T, T) = default_comp;
+	TreeNode<T> *root = NULL;	
+	bool(*compare)(T, T) = default_comp;		//원소 데이터 비교 함수 설정
 public:
 	Tree() {}
 	Tree(bool(*compFunc)(T, T)) : compare(compFunc) {}
-	~Tree() {
+	~Tree() {					//소멸자 호출 : 동적으로 할당한 메모리 제거
 		cout << "Deleting Tree Progressing..." << endl;
 		while (root != NULL) {
 			remove(root->get_data());
 		}
 	}
-	TreeNode<T>* get_root() {
+	TreeNode<T>* get_root() {	//루트 원소 반환
 		return root;
 	}
-	T get_Max() {
+	T get_Max() {			//최댓값 원소 반환
 		TreeNode<T> *current = root;
 		while (current->get_right() != NULL) {
 			current = current->get_right();
 		}
 		return current->get_data();
 	}
-	T get_Min() {
+	T get_Min() {			//최솟값 원소 반환
 		TreeNode<T> *current = root;
 		while (current->get_left() != NULL) {
 			current = current->get_left();
 		}
 		return current->get_data();
 	}
-	TreeNode<T>* search(TreeNode<T> *current, T target) {
-		if (current == NULL) return NULL;
+	TreeNode<T>* search(TreeNode<T> *current, T target) {	//특정값을 탐색. 없을 시 nullptr 반환
+		if (current == NULL) return NULL;	
 		if (current->get_data() == target) { return current; }
 		else if (compare(current->get_data(), target)) { return search(current->get_right(), target); } 
 		else { return search(current->get_left(), target); }
 	}
-	void insert(T input) {
-		if (root == NULL) {
+	void insert(T input) {			//노드 삽입
+		if (root == NULL) {		//루트가 비어있을 경우 루트에 삽입
 			root = new TreeNode<T>(input);
 //			cout << "insert Root : " << input << endl;
 			return;
 		}
 
 		TreeNode<T> *current = root, *parent = NULL;
-		while (current != NULL) {
+		while (current != NULL) {	//반복적으로 값을 비교해가며 자신의 자리를 찾는다.
 			parent = current;
 			if (compare(current->get_data(), input)) { current = current->get_right(); } 
 			else { current = current->get_left(); }
@@ -89,15 +87,15 @@ public:
 		else { parent->set_left(new TreeNode<T>(input)); } 
 //		cout << "insert : " << input << ", Parent : " << parent;
 	}
-	void remove(T target) {
+	void remove(T target) {			//노드 삭제 함수
 		TreeNode<T> *target_node = root, *target_parent = NULL;
 		//값 있는지 탐색
 		while (target_node != NULL && target_node->get_data() != target) {
 			target_parent = target_node;
 			target_node = target_node->get_data() >= target ? target_node->get_left() : target_node->get_right();
 		}
-		//값 없음
-		if (target_node == NULL) {
+		
+		if (target_node == NULL) {	//해당하는 값 없는 경우
 //			cout << target << " doesn't exist" << endl;
 			return;
 		}
@@ -122,7 +120,7 @@ public:
 			else replace_parent->set_left(replace->get_left());
 			target_node->set_data(replace->get_data());
 			target_node = replace;
-		}//자식이 두개
+		}//자식이 두개인 경우 까다로움 -> 반례 주의할 것. 이 함수의 경우, 왼쪽 자식의 가장 오른쪽에 위치한 자식노드를 올려보냄.
 		else {
 			TreeNode<T> *target_child = target_node->get_right() == NULL ? target_node->get_left() : target_node->get_right();
 			//root 노드 지울 때
@@ -138,17 +136,18 @@ public:
 			else {
 				target_parent->set_left(target_child);
 			}
-		}//자식이 한개
+		}//자식이 한개인 경우
 
 		delete target_node;
 	}
-	void remove_Max() {
+	void remove_Max() {		//최댓값 원소 지우기
 		remove(get_Max());
 	}
-	void remove_Min() {
+	void remove_Min() {		//최솟값 원소 지우기
 		remove(get_Min());
 	}
 
+	//------------------순회 시리즈(전위, 중위, 후위)----------------------//
 	void preorder_search(TreeNode<T> *current, vector<T> *all_element) {
 		if (current == NULL) return;
 		(*all_element).push_back(current->get_data());
