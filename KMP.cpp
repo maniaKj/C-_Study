@@ -1,3 +1,5 @@
+//string 내 또 다른 string 을 포함하고 있는지 확인하는 알고리즘. 시간복잡도 O(n+m)
+
 vector<int> getPi(string p)
 {
 	int m = (int)p.size(), j = 0; vector<int> pi(m, 0);
