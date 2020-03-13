@@ -28,7 +28,7 @@ namespace Item41 {
 			temp.swap(w);
 			/*
 				암시적 인터페이스
-				-> 타입 T는 normalize(), swap(T), operator != 메소드를 포함하고 있어야 한다
+				-> 타입 T는 normalize(), swap(T), operator !=(Widget) 메소드를 포함하고 있어야 한다
 			*/
 		}
 	}
