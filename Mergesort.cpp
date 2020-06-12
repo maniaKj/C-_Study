@@ -1,43 +1,44 @@
 //벡터 버전	
-void mergei(vector<int> *a, int i, int j)
+void mergei(vector<int> *vec, int l, int r)
 {
-	int ni = ((i + j) / 2) + 1, nj = j + 1;
-	int s = i;
-	int * arr = new int[j - i + 1];
-	j = ni;
-	int k = 0;
-	while (i < ni && j < nj)
+	int mid = ((l + r) / 2) + 1, right = r + 1;
+	int left = l;
+	int * arr = new int[r - l + 1];
+	r = mid;
+	int arrIndex = 0;
+	while (l < mid && r < right)
 	{
-		if ((*a).at(i) <= (*a).at(j))
+		if ((*vec).at(l) <= (*vec).at(r))
 		{
-			arr[k] = (*a).at(i);
-			i++;
+			arr[arrIndex] = (*vec).at(l);
+			l++;
 
 		}
 		else
 		{
-			arr[k] = (*a).at(j);
-			j++;
+			arr[arrIndex] = (*vec).at(r);
+			r++;
 		}
-		k++;
+		arrIndex++;
 	}
-	for (; i < ni; i++, k++)
-		arr[k] = (*a).at(i);
-	for (; j < nj; j++, k++)
-		arr[k] = (*a).at(j);
-	for (k = 0; s < nj; s++, k++)
-		(*a).at(s) = arr[k];
+	for (; l < mid; l++, arrIndex++)
+		arr[arrIndex] = (*vec).at(l);
+	for (; r < right; r++, arrIndex++)
+		arr[arrIndex] = (*vec).at(r);
+	for (arrIndex = 0; left < right; left++, arrIndex++)
+		(*vec).at(left) = arr[arrIndex];
 	delete[] arr;
 }
-void m_sort(vector<int> *a, int i, int j)
+void m_sort(vector<int> *vec, int left, int j)
 {
-	if (i < j)
+	if (left < j)
 	{
-		m_sort(a, i, (i + j) / 2);
-		m_sort(a, ((i + j) / 2) + 1, j);
-		mergei(a, i, j);
+		m_sort(vec, left, (left + j) / 2);
+		m_sort(vec, ((left + j) / 2) + 1, j);
+		mergei(vec, left, j);
 	}
 }
+
 
 long countInversions(vector<int> arr) {
 	m_sort(&arr, 0, arr.size() - 1);
