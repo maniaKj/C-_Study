@@ -18,6 +18,15 @@ void printBit(int n) {
   cout << endl;
 }
 
+template<typename T, typename = std::enable_if_t<is_integral_v<T>>>
+bool GetBit(T x, unsigned int n) {
+	return x & (1 << n);
+}
+
+//컴파일러가 enable_if 지원하지 않을 때
+bool GetBit(int x, unsigned int n) {
+	return x & (1 << n);
+}
 
 //--------------------------비트연산자 활용----------------------------//
 int getAbit(unsigned short x, int n);
