@@ -12,51 +12,48 @@
 #include <vector>
 class UnionFind {
 public:
-	static void Init(std::size_t n) {
-		Get().m_Elements = std::vector<int>(n, -1);
-		atexit([]() {
-			delete &Get();
-		});
-	}
-	static void Union(int x, int y) {
-		auto& elements = Get().m_Elements;
-		x = Find(x);
-		y = Find(y);
+    static void Init(std::size_t n) {
+        Get().m_Elements = std::vector<int>(n, -1);
+    }
+    static void Union(int x, int y) {
+        auto& elements = Get().m_Elements;
+        x = Find(x);
+        y = Find(y);
 
-		if (x != y) {
-			if (elements[x] < elements[y]) {
-				elements[x] += elements[y];
-				elements[y] = x;
-			}
-			else {
-				elements[y] += elements[x];
-				elements[x] = y;
-			}
-		}
-	}
-	static int Find(int target) {
-		auto& elements = Get().m_Elements;
-		int root = target;
+        if (x != y) {
+            if (elements[x] < elements[y]) {
+                elements[x] += elements[y];
+                elements[y] = x;
+            }
+            else {
+                elements[y] += elements[x];
+                elements[x] = y;
+            }
+        }
+    }
+    static int Find(int target) {
+        auto& elements = Get().m_Elements;
+        int root = target;
 
-		while (elements[root] >= 0) {
-			root = elements[root];
-		}
-			
-		while (elements[target] >= 0) {
-			int tmp = elements[target];
-			elements[target] = root;
-			target = tmp;
-		}
+        while (elements[root] >= 0) {
+            root = elements[root];
+        }
+            
+        while (elements[target] >= 0) {
+            int tmp = elements[target];
+            elements[target] = root;
+            target = tmp;
+        }
 
-		return root;
-	}
+        return root;
+    }
 
 private:
-	static UnionFind& Get() {
-		static UnionFind* s_Instance = new UnionFind();
-		return *s_Instance;
-	}
-	std::vector<int> m_Elements;
+    static UnionFind& Get() {
+        static UnionFind s_Instance;
+        return s_Instance;
+    }
+    std::vector<int> m_Elements;
 };
 
 
