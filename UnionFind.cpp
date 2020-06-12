@@ -1,4 +1,68 @@
-//array 말고 vector 활용 버전은 아래 있음
+/*
+
+1. 클래스 정적 함수 활용
+예시 : https://github.com/wlsvy/TIL/blob/master/Coding_Problem_Solving/Friend%20Circle%20Queries.cpp
+
+2. 벡터 활용
+
+3. 배열 활용
+
+*/
+
+#include <vector>
+class UnionFind {
+public:
+	static void Init(std::size_t n) {
+		Get().m_Elements = std::vector<int>(n, -1);
+		atexit([]() {
+			delete &Get();
+		});
+	}
+	static void Union(int x, int y) {
+		auto& elements = Get().m_Elements;
+		x = Find(x);
+		y = Find(y);
+
+		if (x != y) {
+			if (elements[x] < elements[y]) {
+				elements[x] += elements[y];
+				elements[y] = x;
+			}
+			else {
+				elements[y] += elements[x];
+				elements[x] = y;
+			}
+		}
+	}
+	static int Find(int target) {
+		auto& elements = Get().m_Elements;
+		int root = target;
+
+		while (elements[root] >= 0) {
+			root = elements[root];
+		}
+			
+		while (elements[target] >= 0) {
+			int tmp = elements[target];
+			elements[target] = root;
+			target = tmp;
+		}
+
+		return root;
+	}
+
+private:
+	static UnionFind& Get() {
+		static UnionFind* s_Instance = new UnionFind();
+		return *s_Instance;
+	}
+	std::vector<int> m_Elements;
+};
+
+
+/*
+=========================================================================================
+*/
 
 #include <cstdio>
 #include <cassert>
